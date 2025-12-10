@@ -69,6 +69,8 @@
                     data-i18n="tab_event">EVENT</span></a>
             <a class="nav-item" onclick="setType('bitcoin')"><i class="fab fa-bitcoin"></i> <span
                     data-i18n="tab_bitcoin">BITCOIN</span></a>
+            <a class="nav-item" onclick="setType('bank')"><i class="fas fa-university"></i> <span
+                    data-i18n="tab_bank">BANK</span></a>
         </div>
     </div>
 
@@ -303,6 +305,19 @@
                         <input type="text" id="btc-msg" oninput="updateQR()">
                     </div>
 
+                    <div id="form-bank" style="display:none;">
+                        <label data-i18n="lbl_pp_id">PromptPay ID (Mobile/ID Card)</label>
+                        <input type="text" id="pp-id" placeholder="08x-xxx-xxxx or 1-xxxx-xxxxx-xx-x"
+                            oninput="updateQR()">
+
+                        <label data-i18n="lbl_amount">Amount (Optional)</label>
+                        <input type="number" id="pp-amount" placeholder="0.00" step="0.01" oninput="updateQR()">
+
+                        <p style="font-size:12px; color:#666; margin-top:5px;">
+                            * รองรับเบอร์มือถือ (08x...) และเลขบัตรประชาชน (13 หลัก)
+                        </p>
+                    </div>
+
                 </div>
             </div>
 
@@ -403,6 +418,9 @@
                             class="logo-option" onclick="selectPresetLogo(this.src)">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png"
                             class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/PromptPay-logo.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)" title="PromptPay">
+                       
                     </div>
                 </div>
             </div>

@@ -1,24 +1,149 @@
-/* script.js - Final Version with Density Control */
+/* script.js - Final Version + PromptPay Support */
 
-// 1. Initial Config
+// 1. Translation Dictionary
+const translations = {
+    en: {
+        subtitle: "THE 100% FREE QR CODE GENERATOR",
+        about: "ABOUT",
+        tab_url: "URL", tab_text: "TEXT", tab_email: "EMAIL", tab_phone: "PHONE", tab_sms: "SMS",
+        tab_vcard: "VCARD", tab_mecard: "MECARD", tab_location: "LOCATION", tab_facebook: "FACEBOOK",
+        tab_twitter: "TWITTER", tab_youtube: "YOUTUBE", tab_wifi: "WIFI", tab_event: "EVENT", tab_bitcoin: "BITCOIN", 
+        tab_bank: "BANK", // เพิ่ม
+        sec_content: "ENTER CONTENT", sec_colors: "SET COLORS", sec_logo: "ADD LOGO IMAGE", sec_design: "CUSTOMIZE DESIGN",
+        
+        lbl_url: "Your URL", lbl_text: "Your Text", lbl_email: "Email", lbl_subject: "Subject", lbl_message: "Message",
+        lbl_phone_num: "Your Phone Number", lbl_fname: "Firstname", lbl_lname: "Lastname", lbl_org: "Organization",
+        lbl_position: "Position", lbl_phone_work: "Phone (Work)", lbl_phone_private: "Phone (Private)", lbl_mobile: "Mobile",
+        lbl_fax: "Fax", lbl_website: "Website", lbl_street: "Street", lbl_city: "City", lbl_zip: "Zipcode", lbl_state: "State",
+        lbl_country: "Country", lbl_nickname: "Nickname", lbl_phone: "Phone", lbl_birthday: "Birthday", lbl_notes: "Notes",
+        lbl_lat: "Latitude", lbl_long: "Longitude", lbl_ssid: "Wireless SSID", lbl_password: "Password", lbl_encryption: "Encryption",
+        lbl_event_title: "Event Title", lbl_start: "Start Time", lbl_end: "End Time", lbl_location: "Location", lbl_desc: "Description",
+        lbl_crypto: "Cryptocurrency", lbl_address: "Address", lbl_amount: "Amount",
+        
+        // เพิ่ม Bank
+        lbl_pp_id: "PromptPay ID (Mobile/ID Card)", 
+        
+        lbl_foreground: "Foreground Color", lbl_background: "Background Color", lbl_main_color: "Main Color",
+        opt_single: "Single Color", opt_gradient: "Gradient", opt_eye: "Custom Eye Color",
+        lbl_start_c: "Start Color", lbl_end_c: "End Color",
+        lbl_frame: "Eye Frame", lbl_ball: "Eye Ball",
+        lbl_upload: "Upload Image", btn_remove: "Remove Logo",
+        lbl_body: "Body Shape", lbl_quality: "Quality / Block Size",
+        lbl_low_q: "Low Quality", lbl_high_q: "High Quality", btn_download: "Download PNG"
+    },
+    th: {
+        subtitle: "เครื่องมือสร้าง QR CODE ฟรี 100%",
+        about: "เกี่ยวกับเรา",
+        tab_url: "ลิงก์", tab_text: "ข้อความ", tab_email: "อีเมล", tab_phone: "เบอร์โทร", tab_sms: "SMS",
+        tab_vcard: "นามบัตร", tab_mecard: "MeCard", tab_location: "พิกัด", tab_facebook: "เฟสบุ๊ค",
+        tab_twitter: "ทวิตเตอร์", tab_youtube: "ยูทูป", tab_wifi: "ไวไฟ", tab_event: "อีเว้นท์", tab_bitcoin: "บิตคอยน์",
+        tab_bank: "รับเงิน/โอนเงิน", // เพิ่ม
+        sec_content: "ใส่ข้อมูล", sec_colors: "กำหนดสี", sec_logo: "เพิ่มโลโก้", sec_design: "ปรับแต่งรูปแบบ",
+        
+        lbl_url: "ลิงก์เว็บไซต์", lbl_text: "ข้อความของคุณ", lbl_email: "อีเมล", lbl_subject: "หัวข้อ", lbl_message: "ข้อความ",
+        lbl_phone_num: "เบอร์โทรศัพท์", lbl_fname: "ชื่อจริง", lbl_lname: "นามสกุล", lbl_org: "องค์กร/บริษัท",
+        lbl_position: "ตำแหน่ง", lbl_phone_work: "เบอร์โทร (งาน)", lbl_phone_private: "เบอร์โทร (ส่วนตัว)", lbl_mobile: "เบอร์มือถือ",
+        lbl_fax: "แฟกซ์", lbl_website: "เว็บไซต์", lbl_street: "ถนน/ที่อยู่", lbl_city: "เมือง/เขต", lbl_zip: "รหัสไปรษณีย์", lbl_state: "จังหวัด/รัฐ",
+        lbl_country: "ประเทศ", lbl_nickname: "ชื่อเล่น", lbl_phone: "เบอร์โทร", lbl_birthday: "วันเกิด", lbl_notes: "บันทึก",
+        lbl_lat: "ละติจูด", lbl_long: "ลองจิจูด", lbl_ssid: "ชื่อไวไฟ (SSID)", lbl_password: "รหัสผ่าน", lbl_encryption: "การเข้ารหัส",
+        lbl_event_title: "ชื่อกิจกรรม", lbl_start: "เวลาเริ่ม", lbl_end: "เวลาสิ้นสุด", lbl_location: "สถานที่", lbl_desc: "รายละเอียด",
+        lbl_crypto: "สกุลเงิน", lbl_address: "ที่อยู่กระเป๋าเงิน", lbl_amount: "จำนวน",
+        
+        // เพิ่ม Bank
+        lbl_pp_id: "เบอร์พร้อมเพย์ (มือถือ/บัตรปชช.)",
+
+        lbl_foreground: "สีของ QR Code", lbl_background: "สีพื้นหลัง", lbl_main_color: "สีหลัก",
+        opt_single: "สีเดียว", opt_gradient: "ไล่เฉดสี", opt_eye: "กำหนดสีตา (Eye Color)",
+        lbl_start_c: "สีเริ่มต้น", lbl_end_c: "สีสิ้นสุด",
+        lbl_frame: "กรอบตา", lbl_ball: "ลูกตาดำ",
+        lbl_upload: "อัปโหลดรูปภาพ", btn_remove: "ลบรูป",
+        lbl_body: "รูปร่างจุด", lbl_quality: "ความละเอียด",
+        lbl_low_q: "คุณภาพต่ำ", lbl_high_q: "คุณภาพสูง", btn_download: "ดาวน์โหลด PNG"
+    }
+};
+
+// --------------------------------------------------------
+// PromptPay Generation Logic (EMVCo Standard)
+// --------------------------------------------------------
+function generatePromptPay(id, amount) {
+    if (!id) return "";
+    
+    // 1. Sanitize ID
+    let target = id.replace(/[^0-9]/g, ""); // เอาขีดออก
+    let targetType = "";
+
+    // เช็คว่าเป็นเบอร์มือถือ (ขึ้นต้นด้วย 0 และยาว 10 หลัก) หรือ บัตรประชาชน (13 หลัก)
+    if (target.length === 10 && target.startsWith("0")) {
+        targetType = "01"; // Mobile Number Tag
+        target = "0066" + target.substring(1); // แปลง 08x -> 668x
+    } else if (target.length === 13) {
+        targetType = "02"; // ID Card Tag
+    } else if (target.length === 15) {
+        targetType = "03"; // E-Wallet
+    } else {
+        // ถ้าไม่เข้าเงื่อนไข ให้ return ค่าเดิมไป (กัน error) แต่ QR อาจจะใช้ไม่ได้
+        return id; 
+    }
+
+    // Helper สร้าง TLV (Tag-Length-Value)
+    const f = (id, val) => {
+        const len = val.length.toString().padStart(2, "0");
+        return id + len + val;
+    };
+
+    // 2. Build Payload
+    let payload = "";
+    payload += f("00", "01"); // Payload Format Indicator
+    payload += f("01", amount ? "12" : "11"); // Point of Initiation Method (11=Static, 12=Dynamic if amount)
+    
+    // Merchant Account Information (Tag 29 for PromptPay)
+    let merchantInfo = "";
+    merchantInfo += f("00", "A000000677010111"); // AID for PromptPay
+    merchantInfo += f("01", target); // Mobile/ID
+    payload += f("29", merchantInfo);
+
+    payload += f("53", "764"); // Currency Code (THB)
+    if (amount && parseFloat(amount) > 0) {
+        payload += f("54", parseFloat(amount).toFixed(2)); // Amount
+    }
+    payload += f("58", "TH"); // Country Code
+
+    // 3. Checksum (CRC16)
+    payload += "6304"; // ID + Length of CRC
+    const crc = crc16(payload);
+    payload += crc;
+
+    return payload;
+}
+
+// CRC16 Calculation (CCITT-FALSE)
+function crc16(data) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < data.length; i++) {
+        let x = ((crc >> 8) ^ data.charCodeAt(i)) & 0xFF;
+        x ^= x >> 4;
+        crc = ((crc << 8) ^ (x << 12) ^ (x << 5) ^ x) & 0xFFFF;
+    }
+    return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+
+// --------------------------------------------------------
+// Main App Logic
+// --------------------------------------------------------
+
 let currentType = 'url';
 let currentLogo = null;
 let currentBodyShape = "square";
 let currentEyeFrame = "square";
 let currentEyeBall = "square";
 let currentEcc = "H"; 
-let currentVersion = 0; // 0 = Auto, ยิ่งเลขเยอะ จุดยิ่งเยอะ (Max 40)
+let currentVersion = 0; 
 
-// Config เริ่มต้น
+// Initial Config
 let qrCode = new QRCodeStyling({
-    width: 300, 
-    height: 300, 
-    type: "svg",
-    data: "https://www.google.com",
-    qrOptions: { 
-        errorCorrectionLevel: "H",
-        typeNumber: 0 // เริ่มต้นแบบ Auto
-    },
+    width: 300, height: 300, type: "svg",
+    data: "https://www.qrcode-monkey.com",
+    qrOptions: { errorCorrectionLevel: "H", typeNumber: 0 },
     dotsOptions: { color: "#000000", type: "square" },
     backgroundOptions: { color: "#ffffff" },
     imageOptions: { crossOrigin: "anonymous", margin: 5, imageSize: 0.4 },
@@ -27,30 +152,22 @@ let qrCode = new QRCodeStyling({
 });
 qrCode.append(document.getElementById("canvas"));
 
-// --- ฟังก์ชันแก้ภาษาต่างดาว (เหมือนเดิม) ---
 function safeThai(str) {
     if (!str) return "";
-    try {
-        return unescape(encodeURIComponent(str));
-    } catch (e) {
-        return str;
-    }
+    try { return unescape(encodeURIComponent(str)); } catch (e) { return str; }
 }
 
-// --- ฟังก์ชันจัดการ Density (แก้ใหม่!) ---
-// รับค่า 2 ตัว: ระดับ ECC และ ระดับ Version (ความถี่ยิบของจุด)
-function setDensity(ecc, version, element) {
-    currentEcc = ecc;
-    currentVersion = version;
-    
-    // จัดการสีปุ่ม
-    document.querySelectorAll('.density-btn').forEach(b => b.classList.remove('selected'));
-    element.classList.add('selected');
-
-    updateQR();
+function changeLanguage(lang) {
+    const langLabel = document.getElementById('current-lang');
+    if(langLabel) langLabel.innerText = (lang === 'th') ? 'ไทย' : 'ENGLISH';
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.innerText = translations[lang][key];
+        }
+    });
 }
 
-// 2. UI Helpers & Tabs (คงเดิม)
 function toggleAccordion(id) {
     const content = document.getElementById(id);
     const icon = content.previousElementSibling.querySelector('.fa-plus, .fa-minus');
@@ -68,7 +185,8 @@ function setType(type) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     event.target.closest('.nav-item').classList.add('active');
 
-    const forms = ['url', 'text', 'email', 'phone', 'sms', 'vcard', 'mecard', 'location', 'facebook', 'twitter', 'youtube', 'wifi', 'event', 'bitcoin'];
+    // Hide all forms
+    const forms = ['url', 'text', 'email', 'phone', 'sms', 'vcard', 'mecard', 'location', 'facebook', 'twitter', 'youtube', 'wifi', 'event', 'bitcoin', 'bank'];
     forms.forEach(id => {
         const el = document.getElementById('form-' + id);
         if(el) el.style.display = 'none';
@@ -80,7 +198,6 @@ function setType(type) {
     updateQR();
 }
 
-// 4. Logo Logic (คงเดิม)
 function handleLogo(input) {
     const file = input.files[0];
     if (file) {
@@ -96,7 +213,6 @@ function removeLogo() {
     document.getElementById('input-logo').value = ""; currentLogo = null; updateQR();
 }
 
-// 5. Color & Shape Logic (คงเดิม)
 function toggleColorMode() {
     const isGradient = document.querySelector('input[name="colorType"]:checked').value === 'gradient';
     const isCustomEye = document.getElementById('chk-custom-eye').checked;
@@ -126,22 +242,27 @@ function selectShape(category, shape, element) {
     element.classList.add('selected');
     updateQR();
 }
+function setDensity(ecc, version, element) {
+    currentEcc = ecc;
+    currentVersion = version;
+    document.querySelectorAll('.density-btn').forEach(b => b.classList.remove('selected'));
+    element.classList.add('selected');
+    updateQR();
+}
 function updateSizeLabel(val) {
     document.getElementById('size-label').innerText = val + " x " + val + " Px";
 }
 
-// 6. MAIN UPDATE FUNCTION
+// --- UPDATE QR MAIN LOGIC ---
 function updateQR() {
     let data = "";
     const withBOM = (str) => safeThai("\uFEFF" + str);
 
-    // --- Data Gathering (เหมือนเดิม) ---
     if (currentType === 'url') {
         data = encodeURI(document.getElementById('input-url').value);
     } 
     else if (currentType === 'text') {
-        const val = document.getElementById('input-text').value;
-        data = val ? withBOM(val) : "";
+        data = document.getElementById('input-text').value ? withBOM(document.getElementById('input-text').value) : "";
     } 
     else if (currentType === 'email') {
         const mail = document.getElementById('email-dest').value;
@@ -176,13 +297,8 @@ function updateQR() {
     else if (currentType === 'twitter') {
         const isUrl = document.querySelector('input[name="tw-type"]:checked').value === 'url';
         const val = document.getElementById('tw-input').value;
-        if(!isUrl) {
-             document.getElementById('tw-label').innerText = "Tweet Content";
-             data = `https://twitter.com/intent/tweet?text=${encodeURIComponent(val)}`;
-        } else {
-             document.getElementById('tw-label').innerText = "Twitter URL";
-             data = encodeURI(val);
-        }
+        if(!isUrl) data = `https://twitter.com/intent/tweet?text=${encodeURIComponent(val)}`;
+        else data = encodeURI(val);
     }
     else if (currentType === 'youtube') {
         data = encodeURI(document.getElementById('yt-url').value);
@@ -214,11 +330,8 @@ function updateQR() {
         if(phoneMobile) vcardData += `TEL;CELL:${phoneMobile}\n`;
         if(email) vcardData += `EMAIL;INTERNET:${email}\n`;
         if(web) vcardData += `URL:${web}\n`;
-        if(street || city || country) {
-            vcardData += `ADR;CHARSET=UTF-8:;;${street};${city};${state};${zip};${country}\n`;
-        }
+        if(street || city || country) vcardData += `ADR;CHARSET=UTF-8:;;${street};${city};${state};${zip};${country}\n`;
         vcardData += `END:VCARD`;
-        
         data = withBOM(vcardData);
     }
     else if (currentType === 'mecard') {
@@ -228,22 +341,16 @@ function updateQR() {
         const phone1 = document.getElementById('m-phone1').value;
         const email = document.getElementById('m-email').value;
         const web = document.getElementById('m-web').value;
-        
         let bd = document.getElementById('m-bd').value; 
         if(bd) bd = bd.replace(/-/g, "");
-
         const street = safeThai(document.getElementById('m-street').value);
         const city = safeThai(document.getElementById('m-city').value);
         const state = safeThai(document.getElementById('m-state').value);
         const zip = document.getElementById('m-zip').value;
         const country = safeThai(document.getElementById('m-country').value);
         const note = safeThai(document.getElementById('m-note').value);
-
         let addr = "";
-        if(street || city || state || zip || country) {
-            addr = [street, city, state, zip, country].filter(Boolean).join(", ");
-        }
-
+        if(street || city || state || zip || country) addr = [street, city, state, zip, country].filter(Boolean).join(", ");
         data = withBOM(`MECARD:N:${lname},${name};NICKNAME:${nick};TEL:${phone1};EMAIL:${email};URL:${web};BDAY:${bd};ADR:${addr};NOTE:${note};;`);
     }
     else if (currentType === 'event') {
@@ -252,13 +359,10 @@ function updateQR() {
         let end = document.getElementById('evt-end').value;
         const loc = safeThai(document.getElementById('evt-loc').value);
         let desc = safeThai(document.getElementById('evt-desc').value);
-
         if(start) start = start.replace(/[-:]/g, "") + "00";
         if(end) end = end.replace(/[-:]/g, "") + "00";
         desc = desc.replace(/\r?\n/g, "\\n");
-
         let eventData = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//QR Generator//EN\nBEGIN:VEVENT\nSUMMARY:${title}\nDTSTART:${start}\nDTEND:${end}\nLOCATION:${loc}\nDESCRIPTION:${desc}\nEND:VEVENT\nEND:VCALENDAR`;
-        
         data = withBOM(eventData);
     }
     else if (currentType === 'bitcoin') {
@@ -269,8 +373,14 @@ function updateQR() {
         let prefix = (type === 'bch') ? "bitcoincash" : (type === 'eth') ? "ethereum" : (type === 'ltc') ? "litecoin" : "bitcoin";
         data = `${prefix}:${addr}?amount=${amt}&message=${encodeURIComponent(msg)}`;
     }
+    // ส่วน Bank (PromptPay)
+    else if (currentType === 'bank') {
+        const ppId = document.getElementById('pp-id').value;
+        const ppAmount = document.getElementById('pp-amount').value;
+        data = generatePromptPay(ppId, ppAmount);
+    }
 
-    // --- Styling Logic ---
+    // --- Styling ---
     const isGradient = document.querySelector('input[name="colorType"]:checked').value === 'gradient';
     const isCustomEye = document.getElementById('chk-custom-eye').checked;
     const colorBg = document.getElementById('color-bg').value;
@@ -300,12 +410,11 @@ function updateQR() {
         cornersSquareObj.color = undefined; cornersDotObj.color = undefined;
     }
 
-    // UPDATE: ใส่ typeNumber เพื่อบังคับความหนาแน่น
     qrCode.update({
         data: data,
         qrOptions: { 
             errorCorrectionLevel: currentEcc,
-            typeNumber: currentVersion  // <-- จุดสำคัญ: บังคับ Version ที่นี่
+            typeNumber: currentVersion 
         },
         dotsOptions: dotsOptionsObj,
         backgroundOptions: { color: colorBg },
@@ -320,66 +429,4 @@ function downloadQR() {
     qrCode.update({ width: parseInt(size), height: parseInt(size) });
     qrCode.download({ name: "my-qr-code", extension: "png" });
     setTimeout(() => { qrCode.update({ width: 300, height: 300 }); }, 500);
-}
-
-// 7. Dictionary (ส่วนสุดท้าย)
-const translations = {
-    en: {
-        subtitle: "THE 100% FREE QR CODE GENERATOR",
-        about: "ABOUT",
-        tab_url: "URL", tab_text: "TEXT", tab_email: "EMAIL", tab_phone: "PHONE", tab_sms: "SMS",
-        tab_vcard: "VCARD", tab_mecard: "MECARD", tab_location: "LOCATION", tab_facebook: "FACEBOOK",
-        tab_twitter: "TWITTER", tab_youtube: "YOUTUBE", tab_wifi: "WIFI", tab_event: "EVENT", tab_bitcoin: "BITCOIN",
-        sec_content: "ENTER CONTENT", sec_colors: "SET COLORS", sec_logo: "ADD LOGO IMAGE", sec_design: "CUSTOMIZE DESIGN",
-        lbl_url: "Your URL", lbl_text: "Your Text", lbl_email: "Email", lbl_subject: "Subject", lbl_message: "Message",
-        lbl_phone_num: "Your Phone Number", lbl_fname: "Firstname", lbl_lname: "Lastname", lbl_org: "Organization",
-        lbl_position: "Position", lbl_phone_work: "Phone (Work)", lbl_phone_private: "Phone (Private)", lbl_mobile: "Mobile",
-        lbl_fax: "Fax", lbl_website: "Website", lbl_street: "Street", lbl_city: "City", lbl_zip: "Zipcode", lbl_state: "State",
-        lbl_country: "Country", lbl_nickname: "Nickname", lbl_phone: "Phone", lbl_birthday: "Birthday", lbl_notes: "Notes",
-        lbl_lat: "Latitude", lbl_long: "Longitude", lbl_ssid: "Wireless SSID", lbl_password: "Password", lbl_encryption: "Encryption",
-        lbl_event_title: "Event Title", lbl_start: "Start Time", lbl_end: "End Time", lbl_location: "Location", lbl_desc: "Description",
-        lbl_crypto: "Cryptocurrency", lbl_address: "Address", lbl_amount: "Amount",
-        lbl_foreground: "Foreground Color", lbl_background: "Background Color", lbl_main_color: "Main Color",
-        opt_single: "Single Color", opt_gradient: "Gradient", opt_eye: "Custom Eye Color",
-        lbl_start_c: "Start Color", lbl_end_c: "End Color",
-        lbl_frame: "Eye Frame", lbl_ball: "Eye Ball",
-        lbl_upload: "Upload Image", btn_remove: "Remove Logo",
-        lbl_body: "Body Shape", lbl_quality: "Quality / Block Size",
-        lbl_low_q: "Low Quality", lbl_high_q: "High Quality", btn_download: "Download PNG"
-    },
-    th: {
-        subtitle: "เครื่องมือสร้าง QR CODE ฟรี 100%",
-        about: "เกี่ยวกับเรา",
-        tab_url: "ลิงก์", tab_text: "ข้อความ", tab_email: "อีเมล", tab_phone: "เบอร์โทร", tab_sms: "SMS",
-        tab_vcard: "นามบัตร", tab_mecard: "MeCard", tab_location: "พิกัด", tab_facebook: "เฟสบุ๊ค",
-        tab_twitter: "ทวิตเตอร์", tab_youtube: "ยูทูป", tab_wifi: "ไวไฟ", tab_event: "อีเว้นท์", tab_bitcoin: "บิตคอยน์",
-        sec_content: "ใส่ข้อมูล", sec_colors: "กำหนดสี", sec_logo: "เพิ่มโลโก้", sec_design: "ปรับแต่งรูปแบบ",
-        lbl_url: "ลิงก์เว็บไซต์", lbl_text: "ข้อความของคุณ", lbl_email: "อีเมล", lbl_subject: "หัวข้อ", lbl_message: "ข้อความ",
-        lbl_phone_num: "เบอร์โทรศัพท์", lbl_fname: "ชื่อจริง", lbl_lname: "นามสกุล", lbl_org: "องค์กร/บริษัท",
-        lbl_position: "ตำแหน่ง", lbl_phone_work: "เบอร์โทร (งาน)", lbl_phone_private: "เบอร์โทร (ส่วนตัว)", lbl_mobile: "เบอร์มือถือ",
-        lbl_fax: "แฟกซ์", lbl_website: "เว็บไซต์", lbl_street: "ถนน/ที่อยู่", lbl_city: "เมือง/เขต", lbl_zip: "รหัสไปรษณีย์", lbl_state: "จังหวัด/รัฐ",
-        lbl_country: "ประเทศ", lbl_nickname: "ชื่อเล่น", lbl_phone: "เบอร์โทร", lbl_birthday: "วันเกิด", lbl_notes: "บันทึก",
-        lbl_lat: "ละติจูด", lbl_long: "ลองจิจูด", lbl_ssid: "ชื่อไวไฟ (SSID)", lbl_password: "รหัสผ่าน", lbl_encryption: "การเข้ารหัส",
-        lbl_event_title: "ชื่อกิจกรรม", lbl_start: "เวลาเริ่ม", lbl_end: "เวลาสิ้นสุด", lbl_location: "สถานที่", lbl_desc: "รายละเอียด",
-        lbl_crypto: "สกุลเงิน", lbl_address: "ที่อยู่กระเป๋าเงิน", lbl_amount: "จำนวน",
-        lbl_foreground: "สีของ QR Code", lbl_background: "สีพื้นหลัง", lbl_main_color: "สีหลัก",
-        opt_single: "สีเดียว", opt_gradient: "ไล่เฉดสี", opt_eye: "กำหนดสีตา (Eye Color)",
-        lbl_start_c: "สีเริ่มต้น", lbl_end_c: "สีสิ้นสุด",
-        lbl_frame: "กรอบตา", lbl_ball: "ลูกตาดำ",
-        lbl_upload: "อัปโหลดรูปภาพ", btn_remove: "ลบรูป",
-        lbl_body: "รูปร่างจุด", lbl_quality: "ความละเอียด",
-        lbl_low_q: "คุณภาพต่ำ", lbl_high_q: "คุณภาพสูง", btn_download: "ดาวน์โหลด PNG"
-    }
-};
-
-function changeLanguage(lang) {
-    const langLabel = document.getElementById('current-lang');
-    if(langLabel) langLabel.innerText = (lang === 'th') ? 'ไทย' : 'ENGLISH';
-
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-            element.innerText = translations[lang][key];
-        }
-    });
 }
