@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free QR Code Pro</title>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="brand-wrapper">
+                <div class="brand-logo">
+                    <i class="fas fa-qrcode logo-icon"></i>
+                    <div class="brand-text">
+                        <div class="brand-title">QR Code Pro</div>
+                        <div class="brand-subtitle" data-i18n="subtitle">THE 100% FREE QR CODE GENERATOR</div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="lang-dropdown">
+                    <button class="lang-btn">
+                        <span id="current-lang">ENGLISH</span> <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-content">
+                        <a href="#" onclick="changeLanguage('en')">English</a>
+                        <a href="#" onclick="changeLanguage('th')">ไทย</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="top-nav">
+        <div
+            style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;">
+            <a class="nav-item active" onclick="setType('url')"><i class="fas fa-link"></i> <span
+                    data-i18n="tab_url">URL</span></a>
+            <a class="nav-item" onclick="setType('text')"><i class="fas fa-align-left"></i> <span
+                    data-i18n="tab_text">TEXT</span></a>
+            <a class="nav-item" onclick="setType('email')"><i class="fas fa-envelope"></i> <span
+                    data-i18n="tab_email">EMAIL</span></a>
+            <a class="nav-item" onclick="setType('phone')"><i class="fas fa-phone"></i> <span
+                    data-i18n="tab_phone">PHONE</span></a>
+            <a class="nav-item" onclick="setType('sms')"><i class="fas fa-comment-dots"></i> <span
+                    data-i18n="tab_sms">SMS</span></a>
+            <a class="nav-item" onclick="setType('vcard')"><i class="fas fa-address-card"></i> <span
+                    data-i18n="tab_vcard">VCARD</span></a>
+            <a class="nav-item" onclick="setType('mecard')"><i class="fas fa-id-card"></i> <span
+                    data-i18n="tab_mecard">MECARD</span></a>
+            <a class="nav-item" onclick="setType('location')"><i class="fas fa-map-marker-alt"></i> <span
+                    data-i18n="tab_location">LOCATION</span></a>
+            <a class="nav-item" onclick="setType('facebook')"><i class="fab fa-facebook-f"></i> <span
+                    data-i18n="tab_facebook">FACEBOOK</span></a>
+            <a class="nav-item" onclick="setType('twitter')"><i class="fab fa-twitter"></i> <span
+                    data-i18n="tab_twitter">TWITTER</span></a>
+            <a class="nav-item" onclick="setType('youtube')"><i class="fab fa-youtube"></i> <span
+                    data-i18n="tab_youtube">YOUTUBE</span></a>
+            <a class="nav-item" onclick="setType('wifi')"><i class="fas fa-wifi"></i> <span
+                    data-i18n="tab_wifi">WIFI</span></a>
+            <a class="nav-item" onclick="setType('event')"><i class="fas fa-calendar-alt"></i> <span
+                    data-i18n="tab_event">EVENT</span></a>
+            <a class="nav-item" onclick="setType('bitcoin')"><i class="fab fa-bitcoin"></i> <span
+                    data-i18n="tab_bitcoin">BITCOIN</span></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left-panel">
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('acc-content')">
+                    <span><i class="fas fa-edit section-icon"></i> <span data-i18n="sec_content">ENTER
+                            CONTENT</span></span>
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div id="acc-content" class="accordion-content active">
+
+                    <div id="form-url">
+                        <label data-i18n="lbl_url">Your URL</label>
+                        <input type="text" id="input-url" placeholder="https://www.google.com"
+                            value="https://www.google.com" oninput="updateQR()">
+                    </div>
+
+                    <div id="form-text" style="display:none;">
+                        <label data-i18n="lbl_text">Your Text</label>
+                        <textarea id="input-text" rows="6" placeholder="..." oninput="updateQR()"></textarea>
+                    </div>
+
+                    <div id="form-email" style="display:none;">
+                        <label data-i18n="lbl_email">Your Email</label>
+                        <input type="email" id="email-dest" placeholder="name@mail.com" oninput="updateQR()">
+                        <label data-i18n="lbl_subject">Subject</label>
+                        <input type="text" id="email-subj" placeholder="Enter subject" oninput="updateQR()">
+                        <label data-i18n="lbl_message">Message</label>
+                        <textarea id="email-msg" rows="6" placeholder="Enter your message"
+                            oninput="updateQR()"></textarea>
+                    </div>
+
+                    <div id="form-phone" style="display:none;">
+                        <label data-i18n="lbl_phone_num">Your Phone Number</label>
+                        <input type="tel" id="phone-tel" placeholder="+66 81 234 5678" oninput="updateQR()">
+                    </div>
+
+                    <div id="form-sms" style="display:none;">
+                        <label data-i18n="lbl_phone_num">Your Phone Number</label>
+                        <input type="tel" id="sms-tel" placeholder="+66 81 234 5678" oninput="updateQR()">
+                        <label data-i18n="lbl_message">Message</label>
+                        <textarea id="sms-msg" rows="6" placeholder="Enter text message"
+                            oninput="updateQR()"></textarea>
+                    </div>
+
+                    <div id="form-vcard" style="display:none;">
+                        <div style="margin-bottom:15px;">
+                            <label style="display:inline-block; margin-right:15px;"><input type="radio" name="vcard-ver"
+                                    value="2.1" checked onchange="updateQR()"> Version 2.1</label>
+                            <label style="display:inline-block;"><input type="radio" name="vcard-ver" value="3.0"
+                                    onchange="updateQR()"> Version 3.0</label>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_fname">Firstname</label><input type="text" id="v-fname"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_lname">Lastname</label><input type="text" id="v-lname"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_org">Organization</label><input type="text" id="v-org"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_position">Position</label><input type="text" id="v-title"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_phone_work">Phone (Work)</label><input type="text"
+                                    id="v-phone-work" oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_phone_private">Phone (Private)</label><input type="text"
+                                    id="v-phone-private" oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_mobile">Mobile</label><input type="text" id="v-phone-mobile"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_fax">Fax</label><input type="text" id="v-fax-work"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_email">Email</label><input type="email" id="v-email"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_website">Website</label><input type="text" id="v-website"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_street">Street</label><input type="text" id="v-street"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_city">City</label><input type="text" id="v-city"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_zip">Zipcode</label><input type="text" id="v-zip"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_state">State</label><input type="text" id="v-state"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_country">Country</label><input type="text" id="v-country"
+                                    oninput="updateQR()"></div>
+                        </div>
+                    </div>
+
+                    <div id="form-mecard" style="display:none;">
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_fname">Firstname</label><input type="text" id="m-name"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_lname">Lastname</label><input type="text" id="m-lname"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_nickname">Nickname</label><input type="text" id="m-nick"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_phone">Phone 1</label><input type="text" id="m-phone1"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_phone">Phone 2</label><input type="text" id="m-phone2"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_email">Email</label><input type="text" id="m-email"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_website">Website</label><input type="text" id="m-web"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_birthday">Birthday</label><input type="date" id="m-bd"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_street">Street</label><input type="text" id="m-street"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_zip">Zipcode</label><input type="text" id="m-zip"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_city">City</label><input type="text" id="m-city"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_state">State</label><input type="text" id="m-state"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <div class="grid-2">
+                            <div><label data-i18n="lbl_country">Country</label><input type="text" id="m-country"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_notes">Notes</label><input type="text" id="m-note"
+                                    oninput="updateQR()"></div>
+                        </div>
+                    </div>
+
+                    <div id="form-location" style="display:none;">
+                        <div class="grid-2">
+                            <div><label data-i18n="lbl_lat">Latitude</label><input type="text" id="loc-lat"
+                                    placeholder="13.7563" oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_long">Longitude</label><input type="text" id="loc-long"
+                                    placeholder="100.5018" oninput="updateQR()"></div>
+                        </div>
+                    </div>
+
+                    <div id="form-facebook" style="display:none;">
+                        <div style="margin-bottom:15px;">
+                            <label style="display:inline-block; margin-right:15px;"><input type="radio" name="fb-type"
+                                    value="url" checked> Facebook URL</label>
+                            <label style="display:inline-block;"><input type="radio" name="fb-type" value="share"> Share
+                                URL</label>
+                        </div>
+                        <label>Facebook URL</label>
+                        <input type="text" id="fb-url" placeholder="https://facebook.com/page" oninput="updateQR()">
+                    </div>
+
+                    <div id="form-twitter" style="display:none;">
+                        <div style="margin-bottom:15px;">
+                            <label style="display:inline-block; margin-right:15px;"><input type="radio" name="tw-type"
+                                    value="url" checked onchange="updateQR()"> Twitter URL</label>
+                            <label style="display:inline-block;"><input type="radio" name="tw-type" value="tweet"
+                                    onchange="updateQR()"> Tweet</label>
+                        </div>
+                        <label id="tw-label">Twitter URL</label>
+                        <input type="text" id="tw-input" placeholder="https://twitter.com/user" oninput="updateQR()">
+                    </div>
+
+                    <div id="form-youtube" style="display:none;">
+                        <label>Youtube URL</label>
+                        <input type="text" id="yt-url" placeholder="https://youtube.com/watch?v=..."
+                            oninput="updateQR()">
+                    </div>
+
+                    <div id="form-wifi" style="display:none;">
+                        <div class="grid-3">
+                            <div><label data-i18n="lbl_ssid">Wireless SSID</label><input type="text" id="wifi-ssid"
+                                    oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_password">Password</label><input type="text" id="wifi-pass"
+                                    oninput="updateQR()"></div>
+                            <div>
+                                <label data-i18n="lbl_encryption">Encryption</label>
+                                <select id="wifi-type" onchange="updateQR()"
+                                    style="width:100%; padding:12px; border:1px solid #ddd; border-radius:4px;">
+                                    <option value="nopass">no encryption</option>
+                                    <option value="WPA">WPA/WPA2</option>
+                                    <option value="WEP">WEP</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label style="margin-top:10px;"><input type="checkbox" id="wifi-hidden" onchange="updateQR()">
+                            Hidden Network</label>
+                    </div>
+
+                    <div id="form-event" style="display:none;">
+                        <label data-i18n="lbl_event_title">Event Title</label>
+                        <input type="text" id="evt-title" oninput="updateQR()">
+
+                        <div class="grid-2">
+                            <div><label data-i18n="lbl_start">Start Time</label><input type="datetime-local"
+                                    id="evt-start" oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_end">End Time</label><input type="datetime-local" id="evt-end"
+                                    oninput="updateQR()"></div>
+                        </div>
+                        <label data-i18n="lbl_location">Location</label>
+                        <input type="text" id="evt-loc" oninput="updateQR()">
+                        <label data-i18n="lbl_desc">Description</label>
+                        <textarea id="evt-desc" rows="4" oninput="updateQR()"></textarea>
+                    </div>
+
+                    <div id="form-bitcoin" style="display:none;">
+                        <label data-i18n="lbl_crypto">Cryptocurrency</label>
+                        <div style="margin-bottom:15px;">
+                            <label style="display:inline-block; margin-right:15px;"><input type="radio"
+                                    name="crypto-type" value="bitcoin" checked> Bitcoin</label>
+                            <label style="display:inline-block; margin-right:15px;"><input type="radio"
+                                    name="crypto-type" value="bch"> Bitcoin Cash</label>
+                            <label style="display:inline-block; margin-right:15px;"><input type="radio"
+                                    name="crypto-type" value="eth"> Ethereum</label>
+                            <label style="display:inline-block;"><input type="radio" name="crypto-type" value="ltc">
+                                Litecoin</label>
+                        </div>
+
+                        <div class="grid-2">
+                            <div><label data-i18n="lbl_address">Address</label><input type="text" id="btc-addr"
+                                    placeholder="Wallet Address" oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_amount">Amount</label><input type="text" id="btc-amount"
+                                    placeholder="0.0000" oninput="updateQR()"></div>
+                        </div>
+                        <label data-i18n="lbl_message">Message</label>
+                        <input type="text" id="btc-msg" oninput="updateQR()">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('acc-color')">
+                    <span><i class="fas fa-palette section-icon"></i> <span data-i18n="sec_colors">SET
+                            COLORS</span></span>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div id="acc-color" class="accordion-content">
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight:bold; margin-bottom:10px;" data-i18n="lbl_foreground">Foreground
+                            Color</label>
+                        <div class="radio-group"
+                            style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                            <label style="cursor:pointer;"><input type="radio" name="colorType" value="single" checked
+                                    onchange="toggleColorMode()"> <span data-i18n="opt_single">Single
+                                    Color</span></label>
+                            <label style="cursor:pointer;"><input type="radio" name="colorType" value="gradient"
+                                    onchange="toggleColorMode()"> <span data-i18n="opt_gradient">Color
+                                    Gradient</span></label>
+                            <label style="cursor:pointer;"><input type="checkbox" id="chk-custom-eye"
+                                    onchange="toggleColorMode()"> <span data-i18n="opt_eye">Custom Eye
+                                    Color</span></label>
+                        </div>
+                    </div>
+                    <div id="mode-single" class="color-group">
+                        <label data-i18n="lbl_main_color">Main Color</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="color" id="color-dots" value="#000000" oninput="syncColor('dots', this.value)"
+                                style="width:50px;">
+                            <input type="text" id="text-color-dots" value="#000000"
+                                onkeyup="syncColor('dots', this.value)" style="flex:1;">
+                        </div>
+                    </div>
+                    <div id="mode-gradient" class="color-group"
+                        style="display:none; background:#f0f0f0; padding:10px; border-radius:5px;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div><label data-i18n="lbl_start">Start Color</label><input type="color" id="grad-start"
+                                    value="#054080" oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_end">End Color</label><input type="color" id="grad-end"
+                                    value="#FFFFFF" oninput="updateQR()"></div>
+                        </div>
+                        <input type="range" id="grad-rotation" min="0" max="360" value="45"
+                            style="width:100%; margin-top:10px;" oninput="updateQR()">
+                    </div>
+                    <div id="mode-eye" class="color-group"
+                        style="display:none; margin-top:15px; border-top:1px dashed #ddd; padding-top:10px;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                            <div><label data-i18n="lbl_frame">Eye Frame</label><input type="color" id="color-eye-frame"
+                                    value="#000000" oninput="updateQR()"></div>
+                            <div><label data-i18n="lbl_ball">Eye Ball</label><input type="color" id="color-eye-dot"
+                                    value="#000000" oninput="updateQR()"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label style="font-weight:bold;" data-i18n="lbl_background">Background Color</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="color" id="color-bg" value="#ffffff" oninput="syncColor('bg', this.value)"
+                                style="width:50px;">
+                            <input type="text" id="text-color-bg" value="#FFFFFF" onkeyup="syncColor('bg', this.value)"
+                                style="flex:1;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('acc-logo')">
+                    <span><i class="fas fa-image section-icon"></i> <span data-i18n="sec_logo">ADD LOGO
+                            IMAGE</span></span>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div id="acc-logo" class="accordion-content">
+                    <label data-i18n="lbl_upload">Upload Image</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="file" id="input-logo" accept="image/*" onchange="handleLogo(this)">
+                        <button onclick="removeLogo()"
+                            style="padding:5px 15px; background:#ff4444; color:white; border:none; border-radius:4px; cursor:pointer;"
+                            data-i18n="btn_remove">Remove Logo</button>
+                    </div>
+                    <div class="logo-grid">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/TikTok_logo.svg/1024px-TikTok_logo.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/LINE_logo.svg/1024px-LINE_logo.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/2048px-X_logo_2023.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Favicon_2025.svg/128px-Google_Favicon_2025.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/WiFi_Logo.svg/1200px-WiFi_Logo.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png"
+                            class="logo-option" onclick="selectPresetLogo(this.src)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('acc-design')">
+                    <span><i class="fas fa-qrcode section-icon"></i> <span data-i18n="sec_design">CUSTOMIZE
+                            DESIGN</span></span>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div id="acc-design" class="accordion-content">
+                    <label style="font-weight:bold; margin-bottom:10px;" data-i18n="lbl_body">Body Shape</label>
+                    <div class="shape-grid" id="grid-body">
+                        <div class="shape-option selected" onclick="selectShape('dots', 'square', this)"><svg
+                                viewBox="0 0 25 25" width="35" height="35" fill="#333">
+                                <rect x="2" y="2" width="9" height="9" />
+                                <rect x="14" y="2" width="9" height="9" />
+                                <rect x="2" y="14" width="9" height="9" />
+                                <rect x="14" y="14" width="9" height="9" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('dots', 'dots', this)"><svg viewBox="0 0 25 25"
+                                width="35" height="35" fill="#333">
+                                <circle cx="6.5" cy="6.5" r="4.5" />
+                                <circle cx="18.5" cy="6.5" r="4.5" />
+                                <circle cx="6.5" cy="18.5" r="4.5" />
+                                <circle cx="18.5" cy="18.5" r="4.5" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('dots', 'rounded', this)"><svg
+                                viewBox="0 0 25 25" width="35" height="35" fill="#333">
+                                <rect x="2" y="2" width="9" height="9" rx="3" />
+                                <rect x="14" y="2" width="9" height="9" rx="3" />
+                                <rect x="2" y="14" width="9" height="9" rx="3" />
+                                <rect x="14" y="14" width="9" height="9" rx="3" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('dots', 'extra-rounded', this)"><svg
+                                viewBox="0 0 25 25" width="35" height="35" fill="#333">
+                                <rect x="2" y="2" width="9" height="9" rx="4.5" />
+                                <rect x="14" y="2" width="9" height="9" rx="4.5" />
+                                <rect x="2" y="14" width="9" height="9" rx="4.5" />
+                                <rect x="14" y="14" width="9" height="9" rx="4.5" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('dots', 'classy', this)"><svg viewBox="0 0 25 25"
+                                width="35" height="35" fill="#333">
+                                <path d="M2,2 h9 v5 a4,4 0 0 1 -4,4 h-5 z" />
+                                <path d="M14,2 h9 v5 a4,4 0 0 1 -4,4 h-5 z" />
+                                <path d="M2,14 h9 v5 a4,4 0 0 1 -4,4 h-5 z" />
+                                <path d="M14,14 h9 v5 a4,4 0 0 1 -4,4 h-5 z" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('dots', 'classy-rounded', this)"><svg
+                                viewBox="0 0 25 25" width="35" height="35" fill="#333">
+                                <path d="M2,2 h5 a4,4 0 0 1 4,4 v5 h-9 z" />
+                                <path d="M14,2 h5 a4,4 0 0 1 4,4 v5 h-9 z" />
+                                <path d="M2,14 h5 a4,4 0 0 1 4,4 v5 h-9 z" />
+                                <path d="M14,14 h5 a4,4 0 0 1 4,4 v5 h-9 z" />
+                            </svg></div>
+                    </div>
+                    <label style="font-weight:bold; margin:15px 0 10px;" data-i18n="lbl_frame">Eye Frame Shape</label>
+                    <div class="shape-grid" id="grid-eye-frame">
+                        <div class="shape-option selected" onclick="selectShape('eyeFrame', 'square', this)"><svg
+                                viewBox="0 0 24 24" width="35" height="35" fill="none" stroke="#333" stroke-width="4">
+                                <rect x="4" y="4" width="16" height="16" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('eyeFrame', 'dot', this)"><svg
+                                viewBox="0 0 24 24" width="35" height="35" fill="none" stroke="#333" stroke-width="4">
+                                <rect x="4" y="4" width="16" height="16" rx="8" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('eyeFrame', 'extra-rounded', this)"><svg
+                                viewBox="0 0 24 24" width="35" height="35" fill="none" stroke="#333" stroke-width="4">
+                                <rect x="4" y="4" width="16" height="16" rx="4" />
+                            </svg></div>
+                    </div>
+                    <label style="font-weight:bold; margin:15px 0 10px;" data-i18n="lbl_ball">Eye Ball Shape</label>
+                    <div class="shape-grid" id="grid-eye-ball">
+                        <div class="shape-option selected" onclick="selectShape('eyeBall', 'square', this)"><svg
+                                viewBox="0 0 24 24" width="30" height="30" fill="#333">
+                                <rect x="2" y="2" width="20" height="20" />
+                            </svg></div>
+                        <div class="shape-option" onclick="selectShape('eyeBall', 'dot', this)"><svg viewBox="0 0 24 24"
+                                width="30" height="30" fill="#333">
+                                <circle cx="12" cy="12" r="10" />
+                            </svg></div>
+                    </div>
+
+                    <hr style="border:0; border-top:1px dashed #ddd; margin:20px 0;">
+                    <label style="font-weight:bold;" data-i18n="lbl_quality">Quality / Block Size</label>
+                    <div style="display:flex; justify-content:space-between; gap:10px; margin-top:10px;">
+                        <button onclick="setDensity('L', 0, this)" class="density-btn">Low</button>
+
+                        <button onclick="setDensity('Q', 5, this)" class="density-btn">High</button>
+
+                        <button onclick="setDensity('H', 10, this)" class="density-btn selected">Best</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="preview-box">
+                <div id="canvas"></div>
+                <div class="slider-container">
+                    <input type="range" id="size-slider" min="300" max="2000" value="1000" step="100"
+                        oninput="updateSizeLabel(this.value)">
+                    <div class="res-text">
+                        <span data-i18n="lbl_low_q">Low Quality</span>
+                        <span id="size-label" style="color:#007bff; font-weight:bold;">1000 x 1000 Px</span>
+                        <span data-i18n="lbl_high_q">High Quality</span>
+                    </div>
+                </div>
+                <button class="btn-download" onclick="downloadQR()">
+                    <i class="fas fa-download"></i> <span data-i18n="btn_download">Download PNG</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <footer class="footer-credit">
+        <p>Developed by <a href="#" target="_blank">Yutthana Pumamob</a> © 2025</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,473 @@
+/* style.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* --- ส่วนหัวเว็บไซต์ (Main Header) --- */
+.main-header {
+    background-color: #6193b7; /* สีเขียวเดียวกับธีม */
+    color: white;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo-icon {
+    font-size: 36px;
+    margin-right: 12px;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.brand-subtitle {
+    font-size: 11px;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.h-link {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+.h-link:hover { color: white; }
+
+/* --- เมนูเปลี่ยนภาษา (Language Dropdown Fix) --- */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px; /* เพิ่มพื้นที่ด้านล่างปุ่มนิดหน่อย */
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.lang-content {
+    display: none; /* ซ่อนไว้ก่อน */
+    position: absolute;
+    right: 0;
+    top: 100%; /* อยู่ใต้ปุ่มพอดี */
+    
+    /* แก้ปัญหาเมาส์หุบ: ใช้ padding ดันเนื้อหาลงมาแทน margin */
+    padding-top: 10px; 
+    
+    z-index: 1000;
+}
+
+/* ตัวกล่องเมนูจริงๆ จะอยู่ในนี้ (เพื่อให้ padding-top โปร่งใส) */
+.lang-content a {
+    display: block;
+    background-color: white;
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    text-align: left;
+    min-width: 140px;
+    border-bottom: 1px solid #eee;
+}
+
+.lang-content a:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.lang-content a:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.lang-content a:hover {
+    background-color: #f1f1f1;
+    color: #2e7d32;
+}
+
+/* แสดงเมนูเมื่อเอาเมาส์ชี้ (Hover) */
+.lang-dropdown:hover .lang-content {
+    display: block;
+}
+
+/* ----------------------------------- */
+
+/* Top Nav (ปรับให้เข้ากับ Header ใหม่) */
+.top-nav {
+    background-color: #6193b7; /* สีอ่อนกว่านิดนึงเพื่อให้ดูมีมิติ */
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    padding: 5px 15px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    color: white;
+    border-bottom: 3px solid white;
+}
+
+.nav-item i {
+    margin-right: 5px;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    gap: 30px;
+    padding: 0 20px;
+    flex-wrap: wrap;
+}
+
+.left-panel {
+    flex: 2;
+    min-width: 300px;
+}
+
+.right-panel {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Accordion */
+.accordion-item {
+    background: white;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.accordion-header {
+    padding: 15px 20px;
+    cursor: pointer;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #555;
+    transition: background 0.2s;
+}
+
+.accordion-header:hover {
+    background: #f9f9f9;
+}
+
+.accordion-header i {
+    color: #888;
+}
+
+.accordion-content {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: none;
+    background: #fafafa;
+}
+
+.accordion-content.active {
+    display: block;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="url"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="datetime-local"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+input[type="color"] {
+    height: 40px;
+    border: 1px solid #ddd;
+    padding: 2px;
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Right Panel */
+.preview-box {
+    background: white;
+    padding: 30px;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+}
+
+#canvas {
+    margin-bottom: 20px;
+}
+
+.btn-download {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.btn-download:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.slider-container {
+    margin-top: 20px;
+}
+
+input[type=range] {
+    width: 100%;
+}
+
+.res-text {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* --- Logo Grid Styles --- */
+.logo-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.logo-option {
+    width: 45px;
+    height: 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 5px;
+    cursor: pointer;
+    background: white;
+    object-fit: contain;
+    transition: all 0.2s;
+}
+
+.logo-option:hover {
+    border-color: #2e7d32;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-option.selected {
+    border-color: #2e7d32;
+    background-color: #e8f5e9;
+    border-width: 2px;
+}
+
+/* --- Shape Selection Grids --- */
+.shape-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.shape-option {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    background: white;
+    text-align: center;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+}
+
+.shape-option:hover {
+    border-color: #2e7d32;
+    background-color: #f1f8e9;
+    transform: translateY(-2px);
+}
+
+.shape-option.selected {
+    border-color: #7de082;
+    background-color: #e8f5e9;
+    border-width: 2px;
+    box-shadow: 0 2px 5px rgba(46, 125, 50, 0.2);
+}
+
+/* ไอคอนตัวแทนรูปทรง */
+.shape-preview {
+    width: 24px;
+    height: 24px;
+    background-color: #333;
+    margin-bottom: 5px;
+}
+
+.density-btn {
+    flex: 1;
+    padding: 8px 5px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.density-btn.selected {
+    background-color: #2e7d32;
+    color: white;
+    border-color: #2e7d32;
+}
+
+.full-width {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 0;
+}
+.col {
+    flex: 1;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 150px;
+}
+
+.nav-item {
+    margin-right: 5px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+@media (max-width: 768px) {
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Footer Credit */
+.footer-credit {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* ดันไปล่างสุด */
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid #eee;
+    background: white;
+}
+.footer-credit a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+
+.main-header {
+    border-bottom: none !important;
+}
+
+.brand-logo img {
+    /* คำสั่งนี้จะทำให้ส่วนที่เป็น "สีขาว" กลายเป็น "โปร่งใส" */
+    mix-blend-mode: multiply; 
+    
+    /* ถ้าโลโก้ดูมืดไป ให้ลองเปลี่ยนเป็น darken แทนครับ */
+    /* mix-blend-mode: darken; */
+}
+
